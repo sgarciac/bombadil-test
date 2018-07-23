@@ -1,0 +1,22 @@
+{
+  "name": "bombadil-test",
+  "version": "0.0.1",
+  "description": "Script to test bombadil against BurntSushi's toml test suite",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc main.ts"
+  },
+  "keywords": [
+    "toml",
+    "test"
+  ],
+  "author": "sergio <sergio.garcia@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@sgarciac/bombadil": "file:../bombadil"
+  },
+  "devDependencies": {
+    "@types/node": "^10.5.2",
+    "typescript": "^2.9.2"
+  }
+}
