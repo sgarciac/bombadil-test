@@ -6,10 +6,10 @@ var reader = new toml.TomlReader();
 
 reader.readToml(input, true);
 
-function bombadilToTomlTestAtomicValue(input: toml.TomlAtomicValue) {
+function bombadilToTomlTestAtomicValue(input: toml.TomlValue) {
     switch (input.type) {
         case toml.atomicInteger: {
-            return { type: 'integer', value: input.image };
+            return { type: 'integer', value: input.value.toString() };
         }
         case toml.atomicFloat: {
             return { type: 'float', value: input.value.toString() };
@@ -32,9 +32,23 @@ function bombadilToTomlTestAtomicValue(input: toml.TomlAtomicValue) {
         case toml.localTime: {
             return { type: 'datetime', value: input.image };
         }
+        case toml.arrayType: {
+            if (input.contents.length == 0 || input.contents[0].type != toml.inlineTable) {
+                return { type: 'array', value: input.contents.map(bombadilToTomlTest) };
+            } else {
+                return input.contents.map(bombadilToTomlTest);
+            }
+        }
+        case toml.inlineTable: {
+            let newObj: { [key: string]: any } = {}
+            for (let kv of input.bindings) {
+                newObj[kv.key] = bombadilToTomlTest(kv.value);
+            }
+            return newObj;
+        }
 
         default: {
-            throw 'eh!?';
+            throw `eh!? ${JSON.stringify(input)}`;
         }
     }
 }
@@ -42,9 +56,11 @@ function bombadilToTomlTestAtomicValue(input: toml.TomlAtomicValue) {
 function bombadilToTomlTest(input: any): any {
     if (input.hasOwnProperty('type')) {
         return bombadilToTomlTestAtomicValue(input);
-    } else if (input instanceof Array) {
-        return { type: 'array', value: input.map(bombadilToTomlTest) };
-    } else {
+    }
+    else if (input instanceof Array) {
+        return input.map(bombadilToTomlTest);
+    }
+    else {
         let newObj: { [key: string]: any } = {}
         for (let property in input) {
             newObj[property] = bombadilToTomlTest(input[property]);
