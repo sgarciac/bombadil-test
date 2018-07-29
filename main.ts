@@ -14,6 +14,12 @@ function bombadilToTomlTestAtomicValue(input: toml.TomlValue) {
         case toml.atomicFloat: {
             return { type: 'float', value: input.value.toString() };
         }
+        case toml.atomicNotANumber: {
+            return { type: 'float', value: input.image.toString() };
+        }
+        case toml.atomicInfinity: {
+            return { type: 'float', value: input.image.toString() };
+        }
         case toml.atomicBoolean: {
             return { type: 'bool', value: input.image.toString() };
         }
@@ -21,16 +27,16 @@ function bombadilToTomlTestAtomicValue(input: toml.TomlValue) {
             return { type: 'string', value: input.value };
         }
         case toml.localDateTime: {
-            return { type: 'datetime', value: input.image };
+            return { type: 'local-datetime', value: input.image };
         }
         case toml.offsetDateTime: {
             return { type: 'datetime', value: input.image };
         }
         case toml.localDate: {
-            return { type: 'datetime', value: input.image };
+            return { type: 'local-date', value: input.image };
         }
         case toml.localTime: {
-            return { type: 'datetime', value: input.image };
+            return { type: 'local-time', value: input.image };
         }
         case toml.arrayType: {
             if (input.contents.length == 0 || input.contents[0].type != toml.inlineTable) {
@@ -46,7 +52,6 @@ function bombadilToTomlTestAtomicValue(input: toml.TomlValue) {
             }
             return newObj;
         }
-
         default: {
             throw `eh!? ${JSON.stringify(input)}`;
         }
