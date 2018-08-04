@@ -48,7 +48,7 @@ function bombadilToTomlTestAtomicValue(input: toml.TomlValue) {
         case toml.inlineTable: {
             let newObj: { [key: string]: any } = {}
             for (let kv of input.bindings) {
-                newObj[kv.key] = bombadilToTomlTest(kv.value);
+                newObj[kv.keys[0]] = bombadilToTomlTest(kv.value);
             }
             return newObj;
         }
