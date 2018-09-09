@@ -75,6 +75,7 @@ function bombadilToTomlTest(input: any): any {
 }
 
 if (reader.errors.length > 0) {
+    console.log(JSON.stringify(reader.errors));
     process.exit(1);
 }
 console.log(JSON.stringify(bombadilToTomlTest(reader.result), null, 2));
