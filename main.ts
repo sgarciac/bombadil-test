@@ -27,16 +27,16 @@ function bombadilToTomlTestAtomicValue(input: toml.TomlValue) {
             return { type: 'string', value: input.value };
         }
         case toml.localDateTime: {
-            return { type: 'local-datetime', value: input.image };
+            return { type: 'datetime-local', value: input.image };
         }
         case toml.offsetDateTime: {
             return { type: 'datetime', value: input.image };
         }
         case toml.localDate: {
-            return { type: 'local-date', value: input.image };
+            return { type: 'date', value: input.image };
         }
         case toml.localTime: {
-            return { type: 'local-time', value: input.image };
+            return { type: 'time', value: input.image };
         }
         case toml.arrayType: {
             if (input.contents.length == 0 || input.contents[0].type != toml.inlineTable) {
