@@ -38,23 +38,6 @@ function bombadilToTomlTestAtomicValue(input: toml.TomlValue) {
     case toml.localTime: {
       return { type: "time", value: input.image };
     }
-    case toml.arrayType: {
-      if (
-        input.contents.length == 0 ||
-        input.contents[0].type != toml.inlineTable
-      ) {
-        return { type: "array", value: input.contents.map(bombadilToTomlTest) };
-      } else {
-        return input.contents.map(bombadilToTomlTest);
-      }
-    }
-    case toml.inlineTable: {
-      let newObj: { [key: string]: any } = {};
-      for (let kv of input.bindings) {
-        newObj[kv.keys[0]] = bombadilToTomlTest(kv.value);
-      }
-      return newObj;
-    }
     default: {
       throw `eh!? ${JSON.stringify(input)}`;
     }
